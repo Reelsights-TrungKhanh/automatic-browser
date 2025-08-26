@@ -16,7 +16,7 @@ export default function App() {
     if (!url) return;
 
     try {
-      const res = await fetch("http://localhost:4000/run-tango", {
+      const res = await fetch("https://server-auto-tango.onrender.com/run-tango", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, prompt }),
