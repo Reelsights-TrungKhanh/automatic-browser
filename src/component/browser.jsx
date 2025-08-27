@@ -20,8 +20,8 @@ export default function App() {
     }
 
     const src = new EventSource(
-      `https://server-auto-tango.onrender.com/run-tango-sse?url=${encodeURIComponent(url)}`
-      // `http://localhost:4000/run-tango-sse?url=${encodeURIComponent(url)}`
+      // `https://server-auto-tango.onrender.com/run-tango-sse?url=${encodeURIComponent(url)}`
+      `http://localhost:4000/run-tango-sse?url=${encodeURIComponent(url)}`
     );
     evtRef.current = src;
 
