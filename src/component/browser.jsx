@@ -4,7 +4,8 @@ const { Header, Content } = Layout;
 const { Text } = Typography;
 
 export default function App() {
-  const [url, setUrl] = useState("");
+  // const [url, setUrl] = useState("");
+  const url = "https://app.tango.us/app/workflow/Submit-Text-Input-in-React-App-40851660cc8c44028ca3f08a85d6fdeb";
   const [steps, setSteps] = useState([]);
   const listRef = useRef(null);
   const evtRef = useRef(null);
@@ -73,7 +74,7 @@ export default function App() {
               <Input
                 placeholder="Enter Tango URL"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                // onChange={(e) => setUrl(e.target.value)}
               />
               <Button type="primary" onClick={handleRunAgent}>
                 Run Agent
