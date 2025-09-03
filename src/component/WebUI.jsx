@@ -16,6 +16,9 @@ const WebUI = () => {
   const [domSnapshots, setDomSnapshots] = useState([]); // lưu DOM từ server
   const [analysisHtml, setAnalysisHtml] = useState(""); // lưu kết quả phân tích từ Gemini
   const urlServer = 'http://localhost:4000';
+  const [analyzing, setAnalyzing] = useState(false);
+
+
   const handleRunAgent = () => {
     if (!url) return;
     setSteps([]); // reset logs
@@ -89,7 +92,8 @@ const WebUI = () => {
       message.error("No DOM to analyze");
       return;
     }
-
+    setAnalyzing(true);        // bật trạng thái loading
+    setAnalysisHtml("<p>Analyzing...</p>");
     try {
       const latestDom = domSnapshots[domSnapshots.length - 1].html;
       const res = await fetch(`${urlServer}/analyze-dom`, {
@@ -107,6 +111,9 @@ const WebUI = () => {
       console.error(err);
       message.error("Error analyzing DOM");
     }
+    finally {
+    setAnalyzing(false);   // tắt loading
+  }
   };
 
   return (
@@ -155,16 +162,24 @@ const WebUI = () => {
                   onChange={(e) => setPrompt(e.target.value)}
                   style={{ flex: 1, resize: "none" }}
                 />
-                <Tooltip title={(domSnapshots.length === 0) ? "You must put a URL and perform actions before analyzing" : ""}>
+                <Tooltip
+                  title={
+                    (!prompt || domSnapshots.length === 0)
+                      ? "You must put a URL and perform actions before analyzing"
+                      : ""
+                  }
+                >
                   <Button
                     type="primary"
                     onClick={handleAnalyzeDom}
                     style={{ width: 70 }}
-                    disabled={!prompt || domSnapshots.length === 0}
+                    disabled={!prompt || domSnapshots.length === 0 || analyzing} // disable khi chưa đủ điều kiện hoặc đang phân tích
+                    loading={analyzing} // hiện icon loading
                   >
                     Analyze
                   </Button>
                 </Tooltip>
+
 
               </div>
             </Space>
